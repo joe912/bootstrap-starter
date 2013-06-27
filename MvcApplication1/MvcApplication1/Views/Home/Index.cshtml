@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="span12" id="tooltipsDiv">
+        <h3>Tooltips</h3>
+        <a href="#" data-toggle="tooltip" title="first tooltip">Test the tooltip here</a><br/>
+    </div>
+    <div class="span12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Data Point</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" class="toggleExpansion"><i class="icon-plus-sign"></i></a></td>
+                    <td>First Aid</td>
+                    <td>1092</td>
+                </tr>
+                <tr class="hide">
+                    <td colspan="3">
+                        <div class="expansionData">Expansion data 1</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="toggleExpansion"><i class="icon-plus-sign"></i></a></td>
+                    <td>Minor Injuries</td>
+                    <td>1200</td>
+                </tr>
+                <tr class="hide">
+                    <td colspan="3">
+                        <div class="expansionData">Expansion data 2</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="toggleExpansion"><i class="icon-plus-sign"></i></a></td>
+                    <td>Major Injuries</td>
+                    <td>87</td>
+                </tr>
+                <tr class="hide">
+                    <td colspan="3">
+                        <div class="expansionData">Expansion data 3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="toggleExpansion"><i class="icon-plus-sign"></i></a></td>
+                    <td>Fatalities</td>
+                    <td>1</td>
+                </tr>
+                <tr class="hide">
+                    <td colspan="3">
+                        <div class="expansionData">Expansion data 4</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function() {
+            //alert('ready');
+
+            // Show a bootstrap tooltip
+            $("#tooltipsDiv a").tooltip();
+
+            // collapse
+            //$("tr.collapse").collapse();
+
+            // Manual show
+            $("a.toggleExpansion").on("click", function() {
+
+                var icon = $(this).children("i:first-Child");
+                var expansionRow = $(this).closest("tr") // get row
+                    .next("tr"); // get hidden row
+
+                // show/hide 
+                expansionRow.toggleClass("hide");
+
+                // Change the icon
+                if (expansionRow.is(":visible")) {
+                    icon.removeClass("icon-plus-sign");
+                    icon.addClass("icon-minus-sign");
+                } else {
+                    icon.removeClass("icon-minus-sign");
+                    icon.addClass("icon-plus-sign");
+                }
+
+                // do ajax call - TODO
+
+                //simulate ajax
+                var resultsDiv = expansionRow.find("div.expansionData");
+                if ( !resultsDiv.hasClass("cached")) {
+                    resultsDiv.html("<img src='/Images/ajax-loader.gif' />");
+                    setTimeout(function () {
+                        resultsDiv.html("data should be here now");
+                        resultsDiv.addClass("cached");
+                    }, 2000);
+
+                }
+                
+
+                return false; // prevent scroll after ajax
+            });
+
+        });
+
+
+    </script>
+}
